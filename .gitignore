@@ -1,0 +1,29 @@
+# Byte-compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+*.venv
+Pipfile.lock
+
+# Logs and database files
+*.log
+*.sqlite3
+db.sqlite3
+
+# Environment variables & credentials
+.env
+*.pem
+*.crt
+*.key
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Cache and temporary files
+*.swp
+*.swo
