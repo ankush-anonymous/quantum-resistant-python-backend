@@ -1,4 +1,5 @@
 fastapi
 uvicorn
+liboqs
 liboqs-python
 pydantic
