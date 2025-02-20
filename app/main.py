@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from fastapi.responses import JSONResponse
 from oqs import Signature
 
 app = FastAPI()
@@ -12,6 +13,7 @@ class AuthenticateRequest(BaseModel):
     public_key: str
     private_key: str
     voter_id: str  # Unique identifier for the voter
+
 
 class VerifyRequest(BaseModel):
     public_key: str
@@ -37,24 +39,25 @@ async def authenticate_voter(request: AuthenticateRequest):
     Authenticate a voter by verifying their signature.
     """
     try:
-        # Extract the public key, private key, and voter ID from the request
+        print("Received request:", request.dict())  # Debugging: Print request data
+        
         public_key = bytes.fromhex(request.public_key)
         private_key = bytes.fromhex(request.private_key)
-        voter_id = request.voter_id.encode()  # Convert voter ID to bytes
+        voter_id = request.voter_id.encode()
 
-        # Step 1: Sign the voter ID using the private key
-        sig = Signature("Dilithium5", private_key)  # Initialize Signature with secret key
+        sig = Signature("Dilithium5", private_key)
         signature = sig.sign(voter_id)
 
-        # Step 2: Verify the signature using the public key
         is_authentic = sig.verify(voter_id, signature, public_key)
 
         return {
             "is_authentic": is_authentic,
-            "signature": signature.hex()  # Convert signature to hex for response
+            "signature": signature.hex()
         }
     except Exception as e:
+        print("Error in authentication:", str(e))  # Debugging
         raise HTTPException(status_code=500, detail=str(e))
+
 
 
 

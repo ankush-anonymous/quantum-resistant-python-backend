@@ -27,3 +27,10 @@ db.sqlite3
 # Cache and temporary files
 *.swp
 *.swo
+
+# Ignore Docker cache & logs
+*.log
+*.tmp
+.DS_Store
+.env
+docker-compose.override.yml
